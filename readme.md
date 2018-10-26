@@ -1,4 +1,4 @@
-# Flask 源码解析
+# Flask 源码略读
 |> cugxy
  
 源码版本为 8605cc31, `git clone git@github.com:pallets/flask.git; git checkout 8605cc31 `，同时由于 werkzeug 的更新，代码运行是肯定不能运行的，需要修改部分 import ，这里我已经改好，且添加了例子。直接看这份代码即可。
@@ -14,9 +14,10 @@
 
 # 解析
 ## Flaks 类与 WSGI 的关系
-    WSGI ([详情](https://wsgi.readthedocs.io/en/latest/what.html))首先是一个协议，协议里约定了 web 服务器如何调用 web 应用程序，以及 web 应用程序需要遵守怎样的规范。也就是说，任何实现了 WSGI 的web 服务器与 web 应用程序都可以随意搭配。
 
-    Flask 类就是一个遵守了 WSGI 协议的 web 应用程序框架。
+   WSGI ([详情](https://wsgi.readthedocs.io/en/latest/what.html))首先是一个协议，协议里约定了 web 服务器如何调用 web 应用程序，以及 web 应用程序需要遵守怎样的规范。也就是说，任何实现了 WSGI 的web 服务器与 web 应用程序都可以随意搭配。
+
+Flask 类就是一个遵守了 WSGI 协议的 web 应用程序框架。
 #### Flask 类主要成员变量
 
 - ` view_functions ` 字典
@@ -29,7 +30,7 @@
 ` __call__() ` 函数，确保 Flask 对象是可执行的。（不了解 ` __call__() ` 的点击 --> [python 魔法方法](https://pyzh.readthedocs.io/en/latest/python-magic-methods-guide.html)）
 
 ## run() 函数
-    调用 werkzeng 中 run_simple() 函数，并讲遵守了 WSGI 协议的 self 传入，则 werkzeng 将启动 web 服务，并在服务所监听的端口接收到请求时，按照 WSGI 协议调用 self ，即调用 Flask.__call__() 方法。
+调用 werkzeng 中 run_simple() 函数，并讲遵守了 WSGI 协议的 self 传入，则 werkzeng 将启动 web 服务，并在服务所监听的端口接收到请求时，按照 WSGI 协议调用 self ，即调用 `Flask.__call__()` 方法。
 
 ## 路由-视图函数的添加
 路由函数添加依赖于 python 注解机制。（不了解 注解机制 的点击 --> [python 注解](https://www.jianshu.com/p/7a644520418b)）Flask 中定义的 ` route ` 注解如下:
